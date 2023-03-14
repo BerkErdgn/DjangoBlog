@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class = "jumbotron text-center"> 
+      <h3>Berk Erdoğan Bloğuna Hoşgeldiniz</h3>
+      <p>Bu blog python öğrenmek için deneme amaçlı acılıp yazılmıştır.</p>  
+    </div>
+
+    
+    <p>
+      {% if request.user.is_authenticated %}
+          Giriş Yapılmış,{{request.user.username}}
+      {% else %}
+          Giriş yapılmamış
+      {% endif %}
+    
+    </p>
+
+
+{% endblock body %}

@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block body %}
+        <div class="row">
+            
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h2 class="fw-bolder mb-1">{{article.title}}</h2>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">{{article.creded_date}},by {{article.auther}}</div>
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                            <figure class="mb-4"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt="..." /></figure>
+                        {% endif %}
+                        
+                        <!-- Post content-->
+                        <p class="lead">
+                           {{article.content|safe}}
+                        </p>
+                    </article>
+                    </section>
+
+                    <hr>
+                    <h4>Yorumlar</h4>
+                    <hr>
+                    {% if comments %}
+                        {% for comment in comments %}
+                               <div class="d-flex mt-4">
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                            <div class="ms-3">
+                                                <div class="fw-bold"><h5>{{comment.comment_outher}}</h5></div>
+                                                {{comment.comment_date}} <br>
+                                                {{comment.comment_content}}
+                                    </div>
+                                </div>         
+                        {% endfor %}
+                        
+                    {% else %}
+                        <div class= "alert alert-danger">
+                            Bu makaleye herhangi bir yorum yazılamaış, İlk yorum yapan siz olun.
+                        </div>
+                    {% endif %}
+
+                    <hr>
+                    <div class="card-body">
+                        <div class="card bg-light">
+                            <h5 class = "card-header">Yorum bırak:</h5>
+                            <div class="card-body">
+                                <!-- Comment form-->           
+                                <form method= "post" action = "{% url 'article:comment' article.id %}">
+                                {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput">İsim:</label>
+                                        <input name="comment_outher" type="text" class="form-control" id="formGroupExampleInput" placeholder="İsisminizi Giriniz.">
+                                    </div>
+
+                                <div class="mb-4">
+                                    <label for="formGroupExampleInput">Yorum</label>
+                                    <textarea name="comment_content" class="form-control" rows="3" placeholder="Yorum ekle:"></textarea>
+                                </div>
+                                
+                                <!-- Comment with nested comments-->
+                                <div class="d-flex mb-4">
+                                    <button type="submit" class="btn btn-primary">Yorum yap</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>   
+        </div>    
+                
+
+{% endblock body %}
